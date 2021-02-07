@@ -1,0 +1,2 @@
+class UserFlow < BaseFlow
+end
