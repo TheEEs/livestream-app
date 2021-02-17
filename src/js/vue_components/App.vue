@@ -101,7 +101,7 @@ export default {
                 mediaSource = stream;
                 let videoPlayer = this.$refs['my-video'];
                 videoPlayer.srcObject = stream;
-                videoPlayer.volume = 0.0001;
+                videoPlayer.muted = true;
                 videoPlayer.play();
             }
         }).catch(err => {
@@ -120,9 +120,9 @@ export default {
                         let pc = create_peer_and_answer_to(sender,offer);
                         this.peers[sender] = pc;
                         pc.ontrack = (e) => {
+                            console.log("Track arrived");
                             if(!this.video_tracks[sender]){
                                 Vue.set(this.video_tracks,sender,e.streams[0]);
-                                console.log(this.video_tracks);
                             }
                         };
                     }
@@ -133,6 +133,7 @@ export default {
                     pc.setRemoteDescription(answer);
             } else if(candidate){
                 let pc = this.peers[sender];
+                console.log(candidate.candidate);
                 if(pc)
                     pc.addIceCandidate(candidate);
             } else if(closed){
@@ -146,9 +147,12 @@ export default {
         socket.onclose = () => {
             window.location.pathname = "/";
         };
-        setInterval(()=>{
-            send_message(null,{});
-        },1000);
+        setTimeout(()=>{
+            setInterval(()=>{
+                send_message(null,{});
+            },1000);
+        },2000);
+        
     }
 }
 </script>

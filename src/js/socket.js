@@ -1,8 +1,15 @@
 import adapter from 'webrtc-adapter';
 const configuration = {
-    iceServers: [{
-        urls: ["stun:stun.l.google.com:19302"] // Google's public STUN server
-    }]
+    iceServers: [
+        {
+            urls: ["stun:stun.l.google.com:19302"] // Google's public STUN server
+        },
+        {
+            urls: ["turn:loaphuong.xyz"],
+            username: "trandat",
+            credential: "trandat"
+        }
+    ]
 };
 
 const protocol = window.location.protocol === "http:" ? "ws":"wss";
